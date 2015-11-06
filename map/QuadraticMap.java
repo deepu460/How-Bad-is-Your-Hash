@@ -48,17 +48,6 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 		return map[search(key)].get(0).getVal();
 	}
 
-	@Override
-	public void clear() {
-		for (int i = 0; i < map.length; i++)
-			map[i] = new ArrayList<>();
-	}
-
-	@Override
-	public int size() {
-		return size;
-	}
-
 	private int search(K key) {
 		int index = index(key);
 		int c = 1;

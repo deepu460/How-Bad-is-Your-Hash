@@ -22,10 +22,8 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 				map[keyCode] = new ArrayList<Entry<K, V>>();
 				map[keyCode].add(new Entry<K, V>(key, value));
 				break;
-			} else {
-				if (++keyCode == map.length)
-					keyCode = 0;
-			}
+			} else if (++keyCode == map.length)
+				keyCode = 0;
 		}
 
 		size++;
@@ -35,18 +33,14 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 	@Override
 	public V remove(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		
-		if(contains(key))
-		{
-		size--;
-			while (true) {
+
+		if (contains(key)) {
+			size--;
+			while (true)
 				if (map[keyCode].get(0).getKey().equals(key))
 					return map[keyCode].remove(0).getVal();
-				else {
-					if (++keyCode == map.length)
-						keyCode = 0;
-				}
-			}
+				else if (++keyCode == map.length)
+					keyCode = 0;
 		}
 		return null;
 	}
@@ -59,7 +53,7 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 		if (map[startKeyCode] == null)
 			return false;
 
-		for (int x = 0; keyCode < map.length; x++) {
+		while (keyCode < map.length) {
 			if (map[keyCode] == null)
 				keyCode++;
 			else if (map[keyCode].get(0).getKey().equals(key))
@@ -74,30 +68,14 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 	@Override
 	public V get(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		
-		if(contains(key))
-		{
-			while (true) {
+
+		if (contains(key))
+			while (true)
 				if (map[keyCode].get(0).getKey().equals(key))
 					return map[keyCode].get(0).getVal();
-				else {
-					if (++keyCode == map.length)
-						keyCode = 0;
-				}
-			}
-		}
+				else if (++keyCode == map.length)
+					keyCode = 0;
 		return null;
 	}
 
-	@Override
-	public void clear() {
-		for (int x = 0; x < map.length; x++) {
-			map[x] = new ArrayList<>();
-		}
-	}
-
-	@Override
-	public int size() {
-		return size;
-	}
 }

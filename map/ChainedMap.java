@@ -2,6 +2,8 @@ package map;
 
 import java.util.LinkedList;
 
+import core.HBIMY;
+
 public class ChainedMap<K, V> extends AbstractMap<K, V> {
 
 	public ChainedMap() {
@@ -19,6 +21,8 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 		if (map[hash] == null)
 			map[hash] = new LinkedList<>();
 		map[hash].add(new Entry<>(key, value));
+		if (map[hash].size() != 1)
+			HBIMY.$count++;
 		size++;
 	}
 
@@ -38,16 +42,6 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 	public V get(K key) {
 		int bucket = findBucket(key);
 		return bucket > -1 ? map[findIndex(key)].get(bucket).getVal() : null;
-	}
-
-	public void clear() {
-		size = 0;
-		for (int i = 0; i < map.length; i++)
-			map[i] = null;
-	}
-
-	public int size() {
-		return size;
 	}
 
 	private int findIndex(K key) {

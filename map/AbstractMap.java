@@ -78,6 +78,18 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 		return new HashIterator(this);
 	}
 
+	@Override
+	public void clear() {
+		size = 0;
+		for (int i = 0; i < map.length; i++)
+			map[i] = null;
+	}
+
+	@Override
+	public int size() {
+		return size;
+	}
+
 	@SuppressWarnings("unchecked")
 	protected void resize() {
 		List<Entry<K, V>>[] t = new List[map.length];
