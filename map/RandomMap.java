@@ -20,7 +20,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-		// TODO Auto-generated method stub
 		ran = new Random(Math.abs(key.hashCode()));
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		while(true)
@@ -41,7 +40,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public V remove(K key) {
-		// TODO Auto-generated method stub
 		ran = new Random(Math.abs(key.hashCode()));
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		
@@ -65,7 +63,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public boolean contains(K key) {
-		// TODO Auto-generated method stub
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		int startKeyCode = keyCode;
 
@@ -86,7 +83,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public V get(K key) {
-		// TODO Auto-generated method stub
 		ran = new Random(Math.abs(key.hashCode()));
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		
@@ -110,7 +106,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		for (int x = 0; x < map.length; x++) {
 			map[x] = new ArrayList<>();
 		}
@@ -118,7 +113,6 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return size;
 	}
 
