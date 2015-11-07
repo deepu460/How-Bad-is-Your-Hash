@@ -7,9 +7,20 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 
 	private static final int DEFAULT_SIZE = 127;
 
+	/**
+	 * This array stores the values in this map
+	 */
 	protected List<Entry<K, V>>[] map;
 
+	/**
+	 * The amount of keys mapped in this map
+	 */
 	protected int size;
+
+	/**
+	 * How much larger the array grows with each call to <code>resize()</code>
+	 */
+	protected double GROWTH_FACTOR = 1.1;
 
 	private class HashIterator implements Adored<V> {
 
@@ -67,10 +78,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	public AbstractMap(int size) {
 		super();
 		this.size = 0;
-		if (!prime(size))
-			map = new List[nextPrime(size)];
-		else
-			map = new List[size];
+		map = new List[!prime(size) ? nextPrime(size) : size];
 	}
 
 	@Override
@@ -90,12 +98,15 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 		return size;
 	}
 
+	/**
+	 * Resize the array to the next largest prime number
+	 */
 	@SuppressWarnings("unchecked")
 	protected void resize() {
 		List<Entry<K, V>>[] t = new List[map.length];
 		for (int i = 0; i < map.length; i++)
 			t[i] = map[i];
-		map = new List[nextPrime((int) (Math.round(map.length * 1.1) + 1))];
+		map = new List[nextPrime((int) (Math.round(map.length * GROWTH_FACTOR) + 1))];
 		size = 0;
 		for (List<Entry<K, V>> l : t)
 			if (l != null)
