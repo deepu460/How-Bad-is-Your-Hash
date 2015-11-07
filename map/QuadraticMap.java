@@ -14,12 +14,13 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-		if (size++ >= map.length)
+		if (size == map.length)
 			resize();
 		int index = index(key), c = 0, z = index;
 		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty())
 			z = (index + Math.abs(c * c++)) % map.length;
 		map[z].add(new Entry<>(key, value));
+		size++;
 	}
 
 	@Override

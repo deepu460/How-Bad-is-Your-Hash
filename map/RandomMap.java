@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class RandomMap<K, V> extends AbstractMap<K, V> {
 
-	private int size = 0;
 	private Random ran;
 
 	public RandomMap() {

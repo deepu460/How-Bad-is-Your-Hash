@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class LinearMap<K, V> extends AbstractMap<K, V> {
 
-	private int size = 0;
-
 	public LinearMap() {
 		super();
 	}
@@ -16,18 +14,17 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
+		if (size == map.length)
+			resize();
+		size++;
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		while (true) {
+		while (true)
 			if (map[keyCode] == null) {
-				map[keyCode] = new ArrayList<Entry<K, V>>();
-				map[keyCode].add(new Entry<K, V>(key, value));
+				map[keyCode] = new ArrayList<>();
+				map[keyCode].add(new Entry<>(key, value));
 				break;
 			} else if (++keyCode == map.length)
 				keyCode = 0;
-		}
-
-		size++;
-
 	}
 
 	@Override
