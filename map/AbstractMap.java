@@ -67,10 +67,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	public AbstractMap(int size) {
 		super();
 		this.size = 0;
-		if (!prime(size))
-			map = new List[nextPrime(size)];
-		else
-			map = new List[size];
+		map = new List[!prime(size) ? nextPrime(size) : size];
 	}
 
 	@Override
@@ -92,6 +89,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 
 	@SuppressWarnings("unchecked")
 	protected void resize() {
+		System.out.print("Resized from " + map.length);
 		List<Entry<K, V>>[] t = new List[map.length];
 		for (int i = 0; i < map.length; i++)
 			t[i] = map[i];
@@ -102,6 +100,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 				for (Entry<K, V> e : l)
 					if (e != null)
 						put(e.getKey(), e.getVal());
+		System.out.println(" to " + nextPrime((int) (Math.round(map.length * 1.1) + 1)));
 	}
 
 	private int nextPrime(int s) {

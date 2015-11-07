@@ -18,17 +18,17 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-		ran = new Random(Math.abs(key.hashCode()));
+		ran = new Random(key.hashCode());
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		while (true) {
+		while (true)
 			if (map[keyCode] == null) {
 				map[keyCode] = new ArrayList<Entry<K, V>>();
 				map[keyCode].add(new Entry<K, V>(key, value));
 				size++;
 				break;
 			} else
-				keyCode = ran.nextInt() % map.length;
-		}
+				keyCode = Math.abs(ran.nextInt()) % map.length;
+		size++;
 	}
 
 	@Override
@@ -36,22 +36,25 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 		ran = new Random(Math.abs(key.hashCode()));
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 
-		if (contains(key))
+		if (contains(key)) {
+			size--;
 			while (true)
 				if (map[keyCode].get(0).getKey().equals(key)) {
 					size--;
 					return map[keyCode].remove(0).getVal();
 				} else
 					keyCode = ran.nextInt() % map.length;
+		}
+
 		return null;
 	}
 
 	@Override
 	public boolean contains(K key) {
+		ran = new Random(key.hashCode());
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		int startKeyCode = keyCode;
 
-		if (map[startKeyCode] == null)
+		if (map[keyCode] == null)
 			return false;
 
 		while (keyCode < map.length)
@@ -66,7 +69,7 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public V get(K key) {
-		ran = new Random(Math.abs(key.hashCode()));
+		ran = new Random(key.hashCode());
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 
 		if (contains(key))
@@ -75,7 +78,7 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 					size--;
 					return map[keyCode].get(0).getVal();
 				} else
-					keyCode = ran.nextInt() % map.length;
+					keyCode = Math.abs(ran.nextInt()) % map.length;
 		return null;
 	}
 }

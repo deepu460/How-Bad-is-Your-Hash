@@ -12,7 +12,7 @@ public class WhoAmI {
 		// Read + Map out students
 		Scanner s = null;
 		s = new Scanner(new File("res/students.txt"));
-		Map<String, Student> map = new QuadraticMap<>();
+		Map<String, Student> map = new QuadraticMap<>(5);
 		long z = System.currentTimeMillis();
 		while (s.hasNextLine()) {
 			String[] a = s.nextLine().split("\t");
