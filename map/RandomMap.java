@@ -18,66 +18,44 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 	@Override
 	public void put(K key, V value) {
 		ran = new Random(key.hashCode());
-		int keyCode = Math.abs(key.hashCode()) % map.length;
-		while (true)
-			if (map[keyCode] == null) {
-				map[keyCode] = new ArrayList<Entry<K, V>>();
-				map[keyCode].add(new Entry<K, V>(key, value));
-				size++;
-				break;
-			} else
-				keyCode = Math.abs(ran.nextInt()) % map.length;
+		int keyCode = Math.abs(key.hashCode()) % map.length, z = keyCode;
+		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty())
+			z = Math.abs(ran.nextInt()) % map.length;
+		map[z].add(new Entry<>(key, value));
 		size++;
 	}
 
 	@Override
 	public V remove(K key) {
-		ran = new Random(Math.abs(key.hashCode()));
-		int keyCode = Math.abs(key.hashCode()) % map.length;
-
-		if (contains(key)) {
-			size--;
-			while (true)
-				if (map[keyCode].get(0).getKey().equals(key)) {
-					size--;
-					return map[keyCode].remove(0).getVal();
-				} else
-					keyCode = ran.nextInt() % map.length;
-		}
-
-		return null;
+		int z = search(key);
+		if (z != -1)
+			return null;
+		size--;
+		return map[z].remove(0).getVal();
 	}
 
 	@Override
 	public boolean contains(K key) {
-		ran = new Random(key.hashCode());
-		int keyCode = Math.abs(key.hashCode()) % map.length;
-
-		if (map[keyCode] == null)
-			return false;
-
-		while (keyCode < map.length)
-			if (map[keyCode] == null)
-				keyCode++;
-			else if (map[keyCode].get(0).getKey().equals(key))
-				return true;
-			else
-				keyCode++;
-		return false;
+		return search(key) != -1;
 	}
 
 	@Override
 	public V get(K key) {
-		ran = new Random(key.hashCode());
-		int keyCode = Math.abs(key.hashCode()) % map.length;
-
-		if (contains(key))
-			while (true)
-				if (map[keyCode].get(0).getKey().equals(key)) {
-					size--;
-					return map[keyCode].get(0).getVal();
-				} else
-					keyCode = Math.abs(ran.nextInt()) % map.length;
-		return null;
+		int z = search(key);
+		return z == -1 ? null : map[search(key)].get(0).getVal();
 	}
+
+	private int search(K key) {
+		int index = Math.abs(key.hashCode()) % map.length, z = index;
+		ran = new Random(key.hashCode());
+		for (int d = 0; d < map.length; d++) {
+			if (map[z] != null)
+				for (Entry<K, V> e : map[z])
+					if (e.getKey().equals(key))
+						return z;
+			z = Math.abs(ran.nextInt()) % map.length;
+		}
+		return -1;
+	}
+
 }

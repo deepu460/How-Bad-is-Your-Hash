@@ -39,7 +39,8 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public V get(K key) {
-		return map[search(key)].get(0).getVal();
+		int z = search(key);
+		return z == -1 ? null : map[z].get(0).getVal();
 	}
 
 	private int search(K key) {

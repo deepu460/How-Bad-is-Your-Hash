@@ -5,8 +5,8 @@ import static java.lang.System.out;
 import java.io.File;
 import java.util.Scanner;
 
-import map.LinearMap;
 import map.Map;
+import map.RandomMap;
 
 public class WhoAmI {
 
@@ -14,7 +14,7 @@ public class WhoAmI {
 		// Read + Map out students
 		Scanner s = null;
 		s = new Scanner(new File("res/students.txt"));
-		Map<String, Student> map = new LinearMap<>(5);
+		Map<String, Student> map = new RandomMap<>();
 		long z = System.currentTimeMillis();
 		while (s.hasNextLine()) {
 			String[] a = s.nextLine().split("\t");
