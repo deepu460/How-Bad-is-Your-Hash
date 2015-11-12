@@ -17,11 +17,12 @@ public class HBIMY {
 		List<String> LRS = read("res/Large Data Set.txt"), SSR = read("res/Successful Search Records.txt"),
 				USR = read("res/Unsuccessful Search Records.txt");
 		Map<String, Student> map = new ChainedMap<>(50021);
+		LRS.parallelStream().map(s -> s.split("\t"))
+				.forEachOrdered(s -> map.put(s[0], new Student(s[0], s[1], s[2], s[3])));
 		for (String s : LRS) {
 			String[] a = s.split("\t");
 			map.put(a[0], new Student(a[0], a[1], a[2], a[3]));
 		}
-		long time = System.currentTimeMillis();
 		for (String s : SSR)
 			map.get(s.split("\t")[0]);
 	}

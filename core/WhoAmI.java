@@ -15,24 +15,26 @@ public class WhoAmI {
 		Scanner s = null;
 		s = new Scanner(new File("res/students.txt"));
 		Map<String, Student> map = new RandomMap<>();
-		long z = System.currentTimeMillis();
+		Stopwatch watch = new Stopwatch();
+		watch.start();
 		while (s.hasNextLine()) {
 			String[] a = s.nextLine().split("\t");
 			map.put(a[0], new Student(a[0], a[1], a[2], a[3]));
 		}
-		long x = System.currentTimeMillis();
-		out.printf("Loaded students in %,d ms%n", x - z);
-		out.printf("Avg Loading time is %,.2f ms%n", (x - z) / (double) map.size());
+		watch.stop();
+		out.printf("Loaded students in %s%n", watch.read());
 		s.close();
+		watch.clear();
 		s = new Scanner(System.in);
 		// Greeting Message
 		out.println("\nStudent Database Explorer Alpha V0.1");
 		out.println("Type \"help\" for help");
 		// Menu loop
 		while (true) {
+			watch.clear();
 			out.print("> ");
 			String a[] = s.nextLine().split(" ");
-			long t = System.currentTimeMillis();
+			watch.start();
 			if (a[0].equals("exit"))
 				break;
 			else if (a[0].equals("help")) {
@@ -118,7 +120,8 @@ public class WhoAmI {
 				} // Prints off all students
 				else if (a[0].equals("print") && a[1].equals("all"))
 					map.forEach(h -> out.println(h));
-			out.printf("Completed Operation in %,d ms%n", System.currentTimeMillis() - t);
+			watch.stop();
+			out.printf("Completed Operation in %s%n", watch.read());
 		}
 		s.close();
 	}
