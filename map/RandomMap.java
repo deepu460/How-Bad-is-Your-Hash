@@ -17,6 +17,8 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
+		if (size == map.length)
+			resize();
 		ran = new Random(key.hashCode());
 		int keyCode = Math.abs(key.hashCode()) % map.length, z = keyCode;
 		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty())
