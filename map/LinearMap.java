@@ -19,7 +19,7 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 		size++;
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		while (true)
-			if (map[keyCode] == null) {
+			if (map[keyCode] == null || map[keyCode].isEmpty()) {
 				map[keyCode] = new ArrayList<>();
 				map[keyCode].add(new Entry<>(key, value));
 				break;
