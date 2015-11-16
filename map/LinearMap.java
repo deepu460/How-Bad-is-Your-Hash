@@ -19,7 +19,7 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 		size++;
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		while (true)
-			if (map[keyCode] == null || map[keyCode].isEmpty()) {
+			if (map[keyCode] == null) {
 				map[keyCode] = new ArrayList<>();
 				map[keyCode].add(new Entry<>(key, value));
 				break;
@@ -46,11 +46,10 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 	public boolean contains(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		int startKeyCode = keyCode;
-
 		if (map[startKeyCode] == null)
 			return false;
-
-		while (keyCode < map.length) {
+		int g = keyCode;
+		do {
 			if (map[keyCode] == null)
 				keyCode++;
 			else if (map[keyCode].get(0).getKey().equals(key))
@@ -58,7 +57,10 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 			else {
 				keyCode++;
 			}
-		}
+
+			if (keyCode >= map.length)
+				keyCode = 0;
+		} while (keyCode != g);
 		return false;
 	}
 
