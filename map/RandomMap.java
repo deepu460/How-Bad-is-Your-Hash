@@ -3,6 +3,8 @@ package map;
 import java.util.ArrayList;
 import java.util.Random;
 
+import core.Stopwatch;
+
 public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	private Random ran;
