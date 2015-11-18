@@ -18,6 +18,11 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	protected int size;
 
 	/**
+	 * The amount of collisions that occured in this map
+	 */
+	protected long collisions;
+
+	/**
 	 * How much larger the array grows with each call to <code>resize()</code>
 	 */
 	protected double GROWTH_FACTOR = 1.1;
@@ -96,6 +101,11 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	@Override
 	public int size() {
 		return size;
+	}
+
+	@Override
+	public long collisions() {
+		return collisions;
 	}
 
 	/**

@@ -17,8 +17,10 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 		if (size == map.length)
 			resize();
 		int index = index(key), c = 0, z = index;
-		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty())
-			z = (index + Math.abs(c * c++)) % map.length;
+		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty()) {
+			z = Math.abs(index + Math.abs(c * c++)) % map.length;
+			collisions++;
+		}
 		map[z].add(new Entry<>(key, value));
 		size++;
 	}
@@ -47,7 +49,7 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 		int index = index(key);
 		int c = 1;
 		for (int d = 0; d < map.length; d++) {
-			int z = (index + Math.abs(c * c++)) % map.length;
+			int z = Math.abs(index + Math.abs(c * c++)) % map.length;
 			if (map[z] != null)
 				for (Entry<K, V> e : map[z])
 					if (e.getKey().equals(key))

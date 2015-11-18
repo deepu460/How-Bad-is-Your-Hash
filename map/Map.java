@@ -42,4 +42,9 @@ public interface Map<K, V> extends Adorable<V> {
 	 */
 	public int size();
 
+	/**
+	 * Returns the amount of collisions that occured
+	 */
+	public long collisions();
+
 }

@@ -18,13 +18,16 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 			resize();
 		size++;
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		while (true)
+		while (true) {
 			if (map[keyCode] == null) {
 				map[keyCode] = new ArrayList<>();
 				map[keyCode].add(new Entry<>(key, value));
 				break;
-			} else if (++keyCode == map.length)
+			} else if (++keyCode == map.length) {
 				keyCode = 0;
+			}
+			collisions++;
+		}
 	}
 
 	@Override

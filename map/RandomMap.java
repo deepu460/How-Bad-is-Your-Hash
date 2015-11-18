@@ -3,8 +3,6 @@ package map;
 import java.util.ArrayList;
 import java.util.Random;
 
-import core.Stopwatch;
-
 public class RandomMap<K, V> extends AbstractMap<K, V> {
 
 	private Random ran;
@@ -23,8 +21,10 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 			resize();
 		ran = new Random(key.hashCode());
 		int keyCode = Math.abs(key.hashCode()) % map.length, z = keyCode;
-		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty())
+		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty()) {
 			z = Math.abs(ran.nextInt()) % map.length;
+			collisions++;
+		}
 		map[z].add(new Entry<>(key, value));
 		size++;
 	}

@@ -6,15 +6,15 @@ import java.io.File;
 import java.util.Scanner;
 
 import map.Map;
-import map.RandomMap;
+import map.QuadraticMap;
 
 public class WhoAmI {
 
 	public static void main(String[] args) throws Exception {
 		// Read + Map out students
 		Scanner s = null;
-		s = new Scanner(new File("res/students.txt"));
-		Map<String, Student> map = new RandomMap<>(5);
+		s = new Scanner(new File("res/Large Data Set.txt"));
+		Map<String, Student> map = new QuadraticMap<>(50021);
 		Stopwatch watch = new Stopwatch();
 		watch.start();
 		while (s.hasNextLine()) {

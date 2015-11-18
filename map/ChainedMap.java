@@ -2,8 +2,6 @@ package map;
 
 import java.util.LinkedList;
 
-import core.HBIMY;
-
 public class ChainedMap<K, V> extends AbstractMap<K, V> {
 
 	public ChainedMap() {
@@ -20,9 +18,8 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 		int hash = findIndex(key);
 		if (map[hash] == null)
 			map[hash] = new LinkedList<>();
+		collisions += map[hash].size();
 		map[hash].add(new Entry<>(key, value));
-		if (map[hash].size() != 1)
-			HBIMY.$count++;
 		size++;
 	}
 
