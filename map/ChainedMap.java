@@ -13,8 +13,6 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 	}
 
 	public void put(K key, V value) {
-		if (size > map.length - 1)
-			resize();
 		int hash = findIndex(key);
 		if (map[hash] == null)
 			map[hash] = new LinkedList<>();
