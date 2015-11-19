@@ -18,7 +18,8 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 		int hash = findIndex(key);
 		if (map[hash] == null)
 			map[hash] = new LinkedList<>();
-		collisions += map[hash].size();
+		if (map[hash].size() > 0)
+			collisions++;
 		map[hash].add(new Entry<>(key, value));
 		size++;
 	}

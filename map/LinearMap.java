@@ -57,10 +57,8 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 				keyCode++;
 			else if (map[keyCode].get(0).getKey().equals(key))
 				return true;
-			else {
+			else
 				keyCode++;
-			}
-
 			if (keyCode >= map.length)
 				keyCode = 0;
 		} while (keyCode != g);

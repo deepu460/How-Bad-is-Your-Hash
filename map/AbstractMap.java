@@ -126,7 +126,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	}
 
 	private int nextPrime(int s) {
-		int candidate = size + 1;
+		int candidate = s;
 		while (!prime(candidate++))
 			;
 		return --candidate;

@@ -5,8 +5,8 @@ import static java.lang.System.out;
 import java.io.File;
 import java.util.Scanner;
 
+import map.ChainedMap;
 import map.Map;
-import map.QuadraticMap;
 
 public class WhoAmI {
 
@@ -14,15 +14,16 @@ public class WhoAmI {
 		// Read + Map out students
 		Scanner s = null;
 		s = new Scanner(new File("res/Large Data Set.txt"));
-		Map<String, Student> map = new QuadraticMap<>(50021);
+		Map<String, Student> map = new ChainedMap<>(50513);
 		Stopwatch watch = new Stopwatch();
 		watch.start();
 		while (s.hasNextLine()) {
 			String[] a = s.nextLine().split("\t");
-			map.put(a[0], new Student(a[0], a[1], a[2], a[3]));
+			map.put(a[0] + " " + a[1], new Student(a[0] + " " + a[1], a[2], a[3], a[4]));
 		}
 		watch.stop();
 		out.printf("Loaded students in %s%n", watch.read());
+		out.printf("%,d collisions occured%n", map.collisions());
 		s.close();
 		watch.clear();
 		s = new Scanner(System.in);
@@ -102,7 +103,6 @@ public class WhoAmI {
 							out.println(map.get(l));
 					} else
 						out.println("No matches for " + l);
-
 				} // Removes a student
 				else if (a[0].equals("remove")) {
 					String l = "";
