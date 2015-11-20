@@ -9,6 +9,11 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	private static final int DEFAULT_SIZE = 127;
 
 	/**
+	 * How much larger the array grows with each call to <code>resize()</code>
+	 */
+	public final double GROWTH_FACTOR = 1.1;
+
+	/**
 	 * This array stores the values in this map
 	 */
 	protected List<Entry<K, V>>[] map;
@@ -23,10 +28,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	 */
 	protected long collisions;
 
-	/**
-	 * How much larger the array grows with each call to <code>resize()</code>
-	 */
-	protected double GROWTH_FACTOR = 1.1;
+	
 
 	private class HashIterator implements Adored<V> {
 
