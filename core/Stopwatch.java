@@ -28,19 +28,23 @@ public class Stopwatch {
 	public String read() {
 		if (!started || !stopped)
 			throw new RuntimeException("Error: Stopwatch never stopped or started");
-		double time = (stop - start) / 1000000.0;
-		String prefix = "";
-		if (time >= 1000) {
-			prefix += ((long) time / 1000) + " sec ";
-			time %= 1000;
-		}
-		return prefix + String.format("%,.2f ms", time);
+		return parse(stop - start);
 	}
 
 	public long raw() {
 		if (!started || !stopped)
 			throw new RuntimeException("Error: Stopwatch never stopped or started");
 		return stop - start;
+	}
+
+	public static String parse(long raw) {
+		double time = raw / 1000000.0;
+		String prefix = "";
+		if (time >= 1000) {
+			prefix += ((long) time / 1000) + " sec ";
+			time %= 1000;
+		}
+		return prefix + String.format("%,.2f ms", time);
 	}
 
 }

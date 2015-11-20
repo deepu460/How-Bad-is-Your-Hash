@@ -113,14 +113,14 @@ public class HBIMY {
 		for (MapType t : MapType.TYPES)
 			statsFor(t);
 		println("Overall: ");
-		printf("\tAverage construction time -> %.2f ms%n",
-				data.parallelStream().mapToLong(i -> i.getTime()).average().getAsDouble() / 1000000);
-		printf("\tAverage collisions -> %.2f%n",
-				data.parallelStream().mapToLong(i -> i.getCollisions()).average().getAsDouble() / 1000000);
-		printf("\tAverage SSR time -> %.2f ms%n",
-				data.parallelStream().mapToLong(i -> i.getSsr()).average().getAsDouble() / 1000000);
-		printf("\tAverage USR time -> %.2f ms%n%n",
-				data.parallelStream().mapToLong(i -> i.getUsr()).average().getAsDouble() / 1000000);
+		printf("\tAverage construction time -> %s%n",
+				Stopwatch.parse((long) data.parallelStream().mapToLong(i -> i.getTime()).average().getAsDouble()));
+		printf("\tAverage collisions -> %,.2f%n",
+				data.parallelStream().mapToLong(i -> i.getCollisions()).average().getAsDouble());
+		printf("\tAverage SSR time -> %s%n",
+				Stopwatch.parse((long) data.parallelStream().mapToLong(i -> i.getSsr()).average().getAsDouble()));
+		printf("\tAverage USR time -> %s%n%n",
+				Stopwatch.parse((long) data.parallelStream().mapToLong(i -> i.getUsr()).average().getAsDouble()));
 	}
 
 	/**
@@ -129,14 +129,14 @@ public class HBIMY {
 	private static void statsFor(MapType type) {
 		List<TrialData> list = data.parallelStream().filter(i -> i.getType() == type).collect(Collectors.toList());
 		println(type + ": ");
-		printf("\tAverage construction time -> %.2f ms%n",
-				list.parallelStream().mapToLong(i -> i.getTime()).average().getAsDouble() / 1000000);
-		printf("\tAverage collisions -> %.2f%n",
-				list.parallelStream().mapToLong(i -> i.getCollisions()).average().getAsDouble() / 1000000);
-		printf("\tAverage SSR time -> %.2f ms%n",
-				list.parallelStream().mapToLong(i -> i.getSsr()).average().getAsDouble() / 1000000);
-		printf("\tAverage USR time -> %.2f ms%n%n",
-				list.parallelStream().mapToLong(i -> i.getUsr()).average().getAsDouble() / 1000000);
+		printf("\tAverage construction time -> %s%n",
+				Stopwatch.parse((long) list.parallelStream().mapToLong(i -> i.getTime()).average().getAsDouble()));
+		printf("\tAverage collisions -> %,.2f%n",
+				list.parallelStream().mapToLong(i -> i.getCollisions()).average().getAsDouble());
+		printf("\tAverage SSR time -> %s%n",
+				Stopwatch.parse((long) list.parallelStream().mapToLong(i -> i.getSsr()).average().getAsDouble()));
+		printf("\tAverage USR time -> %s%n%n",
+				Stopwatch.parse((long) list.parallelStream().mapToLong(i -> i.getUsr()).average().getAsDouble()));
 	}
 
 	private static void test(MapType type, double load) {
