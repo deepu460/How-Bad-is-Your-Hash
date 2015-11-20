@@ -51,6 +51,25 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 		return z == -1 ? null : map[z].get(0).getVal();
 	}
 
+	@Override
+	public long probe(K key) {
+		int hash = key.hashCode();
+		int index = Math.abs(key.hashCode()) % map.length, z = 0, k = index, f = 1;
+		ran = new Random(key.hashCode());
+		for (int d = 0; d < map.length; d++) {
+			if (map[k].isEmpty())
+				return f;
+			if (map[k].get(0).getKey().hashCode() == hash)
+				return f;
+			z = Math.abs(ran.nextInt()) % map.length;
+			k = index + z;
+			if (k >= map.length)
+				k -= map.length;
+			f++;
+		}
+		return f;
+	}
+
 	private int search(K key) {
 		int hash = key.hashCode();
 		int index = Math.abs(key.hashCode()) % map.length, z = 0, k = index;

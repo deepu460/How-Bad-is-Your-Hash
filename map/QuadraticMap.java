@@ -44,6 +44,26 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 		return z == -1 ? null : map[z].get(0).getVal();
 	}
 
+	@Override
+	public long probe(K key) {
+		int index = index(key);
+		int c = 1, f = 1;
+		if (map[index].isEmpty())
+			return f;
+		if (map[index].get(0).getKey().hashCode() == key.hashCode())
+			return f;
+		for (int d = 0; d < map.length; d++) {
+			index += Math.abs(index + c * c++) % map.length;
+			index %= map.length;
+			if (map[index].isEmpty())
+				return f;
+			if (map[index].get(0).getKey().hashCode() == key.hashCode())
+				return f;
+			f++;
+		}
+		return f;
+	}
+
 	private int search(K key) {
 		int index = index(key);
 		int c = 1;

@@ -168,32 +168,41 @@ public class HBIMY {
 		watch.stop();
 		if (!quiet) {
 			println("Mapping " + type + " took " + watch.read());
+			printf("\tavg insertion time -> %,d ns%n", watch.raw() / 50000);
 			printf("\tload factor -> %,.2f%n", load);
 			printf("\tsize -> %,d%n", map.size());
 			printf("\tcollisions -> %,d%n", map.collisions());
+			printf("\tcollisions vs Insertions: %,.2f%%%n", map.collisions() / 500.0);
+			if (type == MapType.C)
+				printf("\tavg. List Length -> %,.2f%n", 50000.0 / (50000 - map.collisions()));
 			time = watch.raw();
 		}
 		watch.clear();
+		long probes_ssr = 0;
 		watch.start();
 		for (String s : SSR)
-			map.get(s);
+			probes_ssr += map.probe(s);
 		watch.stop();
 		if (!quiet) {
 			println("\tSSR -> " + watch.read());
+			printf("\tavg. Probes -> %,.2f%n", probes_ssr / 1000.0);
 			ssr = watch.raw();
 		}
 		watch.clear();
+		long probes_usr = 0;
 		watch.start();
 		for (String s : USR)
-			map.get(s);
+			probes_usr += map.probe(s);
 		watch.stop();
 		if (!quiet) {
 			println("\tUSR -> " + watch.read());
+			printf("\tavg. Probes -> %,.2f%n", probes_usr / 1000.0);
 			usr = watch.raw();
 		}
 		watch.clear();
 		if (!quiet)
-			data.add(new TrialData(type, load, LDS.size(), map.collisions(), time, ssr, usr));
+			data.add(new TrialData(type, load, LDS.size(), map.collisions(), time, ssr, usr, probes_ssr / 1000,
+					probes_usr / 1000));
 	}
 
 	/**

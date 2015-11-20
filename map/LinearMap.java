@@ -65,4 +65,19 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 		return null;
 	}
 
+	@Override
+	public long probe(K key) {
+		int keyCode = Math.abs(key.hashCode()) % map.length, c = 1;
+		for (int d = 0; d < map.length; d++) {
+			if (map[keyCode].isEmpty())
+				return c;
+			else if (map[keyCode].get(0).getKey().hashCode() == key.hashCode())
+				return c;
+			else if (++keyCode == map.length)
+				keyCode = 0;
+			c++;
+		}
+		return c;
+	}
+
 }

@@ -10,7 +10,10 @@ public class TrialData {
 
 	private long size, collisions, time, ssr, usr;
 
-	public TrialData(MapType type, double load, long size, long collisions, long time, long ssr, long usr) {
+	private long probes_ssr, probes_usr;
+
+	public TrialData(MapType type, double load, long size, long collisions, long time, long ssr, long usr,
+			long probes_ssr, long probes_usr) {
 		super();
 		this.type = type;
 		this.load = load;
@@ -19,6 +22,8 @@ public class TrialData {
 		this.time = time;
 		this.ssr = ssr;
 		this.usr = usr;
+		this.probes_ssr = probes_ssr;
+		this.probes_usr = probes_usr;
 	}
 
 	public MapType getType() {
@@ -47,6 +52,14 @@ public class TrialData {
 
 	public long getUsr() {
 		return usr;
+	}
+
+	public long getProbes_ssr() {
+		return probes_ssr;
+	}
+
+	public long getProbes_usr() {
+		return probes_usr;
 	}
 
 	@Override

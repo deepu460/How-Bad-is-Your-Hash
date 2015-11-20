@@ -10,14 +10,16 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 		super(size);
 	}
 
+	@Override
 	public void put(K key, V value) {
 		int hash = findIndex(key);
-		if (map[hash].size() > 0)
+		if (!map[hash].isEmpty())
 			collisions++;
 		map[hash].add(new Entry<>(key, value));
 		size++;
 	}
 
+	@Override
 	public V remove(K key) {
 		int bucket = findBucket(key);
 		if (bucket > -1) {
@@ -27,13 +29,29 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 		return null;
 	}
 
+	@Override
 	public boolean contains(K key) {
 		return get(key) != null;
 	}
 
+	@Override
 	public V get(K key) {
 		int bucket = findBucket(key);
 		return bucket > -1 ? map[findIndex(key)].get(bucket).getVal() : null;
+	}
+
+	@Override
+	public long probe(K key) {
+		int hash = findIndex(key);
+		int c = 0;
+		if (map[hash].isEmpty())
+			return c;
+		for (Entry<K, V> e : map[hash])
+			if (e.getKey().hashCode() == key.hashCode())
+				return c;
+			else
+				c++;
+		return c;
 	}
 
 	private int findIndex(K key) {
@@ -42,7 +60,7 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 
 	private int findBucket(K key) {
 		int hash = findIndex(key);
-		int c = 0;
+		int c = 1;
 		if (map[hash].isEmpty())
 			return -1;
 		for (Entry<K, V> e : map[hash])
@@ -52,4 +70,5 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 				c++;
 		return -1;
 	}
+
 }

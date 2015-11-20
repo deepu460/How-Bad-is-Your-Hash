@@ -46,5 +46,11 @@ public interface Map<K, V> extends Adorable<V> {
 	 * Returns the amount of collisions that occured
 	 */
 	public long collisions();
+	
+	/**
+	 * The amount of probes to find something
+	 * @return
+	 */
+	public long probe(K key);
 
 }
