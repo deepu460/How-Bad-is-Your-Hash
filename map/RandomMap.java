@@ -1,6 +1,5 @@
 package map;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomMap<K, V> extends AbstractMap<K, V> {
@@ -20,12 +19,15 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 		if (size == map.length)
 			resize();
 		ran = new Random(key.hashCode());
-		int keyCode = Math.abs(key.hashCode()) % map.length, z = keyCode;
-		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty()) {
+		int keyCode = Math.abs(key.hashCode()) % map.length, z = 0, k = keyCode;
+		while (!map[k].isEmpty()) {
 			z = Math.abs(ran.nextInt()) % map.length;
+			k = keyCode + z;
+			if (k >= map.length)
+				k -= map.length;
 			collisions++;
 		}
-		map[z].add(new Entry<>(key, value));
+		map[k].add(new Entry<>(key, value));
 		size++;
 	}
 
@@ -46,18 +48,22 @@ public class RandomMap<K, V> extends AbstractMap<K, V> {
 	@Override
 	public V get(K key) {
 		int z = search(key);
-		return z == -1 ? null : map[search(key)].get(0).getVal();
+		return z == -1 ? null : map[z].get(0).getVal();
 	}
 
 	private int search(K key) {
-		int index = Math.abs(key.hashCode()) % map.length, z = index;
+		int hash = key.hashCode();
+		int index = Math.abs(key.hashCode()) % map.length, z = 0, k = index;
 		ran = new Random(key.hashCode());
 		for (int d = 0; d < map.length; d++) {
-			if (map[z] != null)
-				for (Entry<K, V> e : map[z])
-					if (e.getKey().equals(key))
-						return z;
+			if (map[k].isEmpty())
+				return -1;
+			if (map[k].get(0).getKey().hashCode() == hash)
+				return k;
 			z = Math.abs(ran.nextInt()) % map.length;
+			k = index + z;
+			if (k >= map.length)
+				k -= map.length;
 		}
 		return -1;
 	}

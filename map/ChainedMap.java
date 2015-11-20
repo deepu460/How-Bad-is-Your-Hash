@@ -1,7 +1,5 @@
 package map;
 
-import java.util.LinkedList;
-
 public class ChainedMap<K, V> extends AbstractMap<K, V> {
 
 	public ChainedMap() {
@@ -14,8 +12,6 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 
 	public void put(K key, V value) {
 		int hash = findIndex(key);
-		if (map[hash] == null)
-			map[hash] = new LinkedList<>();
 		if (map[hash].size() > 0)
 			collisions++;
 		map[hash].add(new Entry<>(key, value));
@@ -47,7 +43,7 @@ public class ChainedMap<K, V> extends AbstractMap<K, V> {
 	private int findBucket(K key) {
 		int hash = findIndex(key);
 		int c = 0;
-		if (map[hash] == null)
+		if (map[hash].isEmpty())
 			return -1;
 		for (Entry<K, V> e : map[hash])
 			if (e.getKey().hashCode() == key.hashCode())

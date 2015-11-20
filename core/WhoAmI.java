@@ -14,7 +14,7 @@ public class WhoAmI {
 		// Read + Map out students
 		Scanner s = null;
 		s = new Scanner(new File("res/Large Data Set.txt"));
-		Map<String, Student> map = new ChainedMap<>(50513);
+		Map<String, Student> map = new ChainedMap<>(50000 / 2);
 		Stopwatch watch = new Stopwatch();
 		watch.start();
 		while (s.hasNextLine()) {

@@ -1,6 +1,7 @@
 package map;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AbstractMap<K, V> implements Map<K, V> {
@@ -84,6 +85,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 		super();
 		this.size = 0;
 		map = new List[!prime(size) ? nextPrime(size) : size];
+		clear();
 	}
 
 	@Override
@@ -94,8 +96,9 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	@Override
 	public void clear() {
 		size = 0;
+		collisions = 0;
 		for (int i = 0; i < map.length; i++)
-			map[i] = null;
+			map[i] = new LinkedList<>();
 	}
 
 	@Override
@@ -118,6 +121,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 			t[i] = map[i];
 		map = new List[nextPrime((int) (Math.round(map.length * GROWTH_FACTOR) + 1))];
 		size = 0;
+		collisions = 0;
 		for (List<Entry<K, V>> l : t)
 			if (l != null)
 				for (Entry<K, V> e : l)

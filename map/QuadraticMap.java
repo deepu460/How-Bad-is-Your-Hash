@@ -1,7 +1,5 @@
 package map;
 
-import java.util.ArrayList;
-
 public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 
 	public QuadraticMap() {
@@ -16,12 +14,13 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 	public void put(K key, V value) {
 		if (size == map.length)
 			resize();
-		int index = index(key), c = 0, z = index;
-		while (!(map[z] = map[z] == null ? new ArrayList<>() : map[z]).isEmpty()) {
-			z = Math.abs(index + Math.abs(c * c++)) % map.length;
+		int index = index(key), c = 0;
+		while (!map[index].isEmpty()) {
+			index += Math.abs(index + c * c++);
+			index %= map.length;
 			collisions++;
 		}
-		map[z].add(new Entry<>(key, value));
+		map[index].add(new Entry<>(key, value));
 		size++;
 	}
 
@@ -48,12 +47,17 @@ public class QuadraticMap<K, V> extends AbstractMap<K, V> {
 	private int search(K key) {
 		int index = index(key);
 		int c = 1;
+		if (map[index].isEmpty())
+			return -1;
+		if (map[index].get(0).getKey().hashCode() == key.hashCode())
+			return index;
 		for (int d = 0; d < map.length; d++) {
-			int z = Math.abs(index + Math.abs(c * c++)) % map.length;
-			if (map[z] != null)
-				for (Entry<K, V> e : map[z])
-					if (e.getKey().equals(key))
-						return z;
+			index += Math.abs(index + c * c++) % map.length;
+			index %= map.length;
+			if (map[index].isEmpty())
+				return -1;
+			if (map[index].get(0).getKey().hashCode() == key.hashCode())
+				return index;
 		}
 		return -1;
 	}

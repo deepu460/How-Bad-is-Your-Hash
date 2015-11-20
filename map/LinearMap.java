@@ -1,7 +1,5 @@
 package map;
 
-import java.util.ArrayList;
-
 public class LinearMap<K, V> extends AbstractMap<K, V> {
 
 	public LinearMap() {
@@ -19,13 +17,11 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 		size++;
 		int keyCode = Math.abs(key.hashCode()) % map.length;
 		while (true) {
-			if (map[keyCode] == null) {
-				map[keyCode] = new ArrayList<>();
+			if (map[keyCode].isEmpty()) {
 				map[keyCode].add(new Entry<>(key, value));
 				break;
-			} else if (++keyCode == map.length) {
+			} else if (++keyCode == map.length)
 				keyCode = 0;
-			}
 			collisions++;
 		}
 	}
@@ -33,48 +29,39 @@ public class LinearMap<K, V> extends AbstractMap<K, V> {
 	@Override
 	public V remove(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-
-		if (contains(key)) {
-			size--;
-			while (true)
-				if (map[keyCode].get(0).getKey().equals(key))
-					return map[keyCode].remove(0).getVal();
-				else if (++keyCode == map.length)
-					keyCode = 0;
-		}
+		for (int d = 0; d < map.length; d++)
+			if (map[keyCode].isEmpty())
+				return null;
+			else if (map[keyCode].get(0).getKey().hashCode() == key.hashCode())
+				return map[keyCode].remove(0).getVal();
+			else if (++keyCode == map.length)
+				keyCode = 0;
 		return null;
 	}
 
 	@Override
 	public boolean contains(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-		int startKeyCode = keyCode;
-		if (map[startKeyCode] == null)
-			return false;
-		int g = keyCode;
-		do {
-			if (map[keyCode] == null)
-				keyCode++;
-			else if (map[keyCode].get(0).getKey().equals(key))
+		for (int d = 0; d < map.length; d++)
+			if (map[keyCode].isEmpty())
+				return false;
+			else if (map[keyCode].get(0).getKey().hashCode() == key.hashCode())
 				return true;
-			else
-				keyCode++;
-			if (keyCode >= map.length)
+			else if (++keyCode == map.length)
 				keyCode = 0;
-		} while (keyCode != g);
 		return false;
 	}
 
 	@Override
 	public V get(K key) {
 		int keyCode = Math.abs(key.hashCode()) % map.length;
-
-		if (contains(key))
-			while (true)
-				if (map[keyCode].get(0).getKey().equals(key))
-					return map[keyCode].get(0).getVal();
-				else if (++keyCode == map.length)
-					keyCode = 0;
+		for (int d = 0; d < map.length; d++)
+			if (map[keyCode].isEmpty())
+				return null;
+			else if (map[keyCode].get(0).getKey().hashCode() == key.hashCode())
+				return map[keyCode].get(0).getVal();
+			else if (++keyCode == map.length)
+				keyCode = 0;
 		return null;
 	}
 

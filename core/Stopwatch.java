@@ -1,55 +1,46 @@
 package core;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Stopwatch {
 
-	private Instant start, now;
+	private long start, stop;
 
-	private List<Instant> laps;
+	private boolean started, stopped;
 
 	public Stopwatch() {
 		super();
-		laps = new ArrayList<>();
 	}
 
 	public void start() {
-		start = Instant.now();
+		start = System.nanoTime();
+		started = true;
 	}
 
 	public void stop() {
-		now = Instant.now();
-	}
-
-	public void lap() {
-		laps.add(Instant.now());
+		stop = System.nanoTime();
+		stopped = true;
 	}
 
 	public void clear() {
-		start = null;
-		now = null;
-		laps.clear();
-	}
-
-	public String[] readLaps() {
-		if (now == null)
-			throw new RuntimeException("Error: Stopwatch never stopped");
-		List<String> l = new ArrayList<>();
-		for (Instant i : laps) {
-			Duration d = Duration.between(i, now);
-			l.add(String.format("%s s %s ns", d.getSeconds(), d.getNano()));
-		}
-		return l.toArray(new String[l.size()]);
+		started = false;
+		stopped = false;
 	}
 
 	public String read() {
-		if (now == null || start == null)
+		if (!started || !stopped)
 			throw new RuntimeException("Error: Stopwatch never stopped or started");
-		Duration d = Duration.between(start, now);
-		return String.format("%,d s %,d ns", d.getSeconds(), d.getNano());
+		double time = (stop - start) / 1000000.0;
+		String prefix = "";
+		if (time >= 1000) {
+			prefix += ((long) time / 1000) + " sec ";
+			time %= 1000;
+		}
+		return prefix + String.format("%,.2f ms", time);
+	}
+
+	public long raw() {
+		if (!started || !stopped)
+			throw new RuntimeException("Error: Stopwatch never stopped or started");
+		return stop - start;
 	}
 
 }
